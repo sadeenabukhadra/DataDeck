@@ -48,7 +48,7 @@ The goal is to separate object creation from usage.
 
 ---
 
-## 🐉 Creature Families
+##  Creature Families
 
 ###  Fire Family
 - Flameling (base)
