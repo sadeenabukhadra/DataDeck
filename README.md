@@ -3,6 +3,7 @@ A strategic card game featuring collectible creatures and turn-based battles, de
 
 # content 
  [EX0](#EX0)
+ 
  [EX1](#EX1)
 
 
