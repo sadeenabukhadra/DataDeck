@@ -25,7 +25,7 @@ class AggressiveStrategy(BattleStrategy):
 
 
 class DefensiveStrategy(BattleStrategy):
-    def is_valid(self, creature: Any):
+    def is_valid(self, creature: Any) -> bool:
         return hasattr(creature, "heal")
 
     def act(self, creature: Any) -> None:
