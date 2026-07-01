@@ -1,6 +1,5 @@
 from ex0.creature import Creature
 from .capabilities import TransformCapability
-from ex0.factory import CreatureFactory
 
 
 class Shiftling(Creature, TransformCapability):

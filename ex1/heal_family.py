@@ -2,7 +2,6 @@ from typing import Optional, Any
 
 from ex0.creature import Creature
 from .capabilities import HealCapability
-from ex0.factory import CreatureFactory
 
 
 class Sproutling(Creature, HealCapability):

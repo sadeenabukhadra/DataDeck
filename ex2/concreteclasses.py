@@ -1,5 +1,5 @@
 from typing import Any
-from .strategy import BattleStrategy
+from .battlestrategy import BattleStrategy
 
 
 class NormalStrategy(BattleStrategy):
@@ -30,9 +30,7 @@ class DefensiveStrategy(BattleStrategy):
 
     def act(self, creature: Any) -> None:
         if not self.is_valid(creature):
-            raise Exception(
-                f"Invalid Creature '{creature.name}' \
-                for this defensive strategy"
-            )
+            raise Exception(f"Invalid Creature '{creature.name}' \
+                for this defensive strategy")
         print(creature.heal())
         print(creature.attack())

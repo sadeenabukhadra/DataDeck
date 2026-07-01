@@ -1,24 +1,27 @@
-from typing import cast
-from ex0 import FlameFactory, AquaFactory
+from typing import List, Tuple
+
 from ex0.factory import CreatureFactory
+from ex0.flame_factory import FlameFactory
+from ex0.aqua_factory import AquaFactory
 from ex1 import HealingCreatureFactory, TransformCreatureFactory
-from ex1.capabilities import TransformCapability, HealCapability
+
 from ex2.battlestrategy import BattleStrategy
-from ex2.concreteclasses import NormalStrategy, DefensiveStrategy, AggressiveStrategy
+from ex2.concreteclasses import (
+    NormalStrategy,
+    DefensiveStrategy,
+    AggressiveStrategy,
+)
 
 
 def battle(opponents: List[Tuple[CreatureFactory, BattleStrategy]]) -> None:
-
     print("*** Tournament ***")
     print(f"{len(opponents)} opponents involved")
 
     creatures = []
 
-    # create creatures
     for factory, strategy in opponents:
         creatures.append((factory.create_base(), strategy))
 
-    # all vs all
     for i in range(len(creatures)):
         for j in range(i + 1, len(creatures)):
 
@@ -32,9 +35,6 @@ def battle(opponents: List[Tuple[CreatureFactory, BattleStrategy]]) -> None:
             print("now fight!")
 
             try:
-                if not s1.is_valid(c1) or not s2.is_valid(c2):
-                    raise Exception("Invalid matchup")
-
                 s1.act(c1)
                 s2.act(c2)
 
