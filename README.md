@@ -243,7 +243,7 @@ Creates:
 
 ---
 
-## ⚔️ Behavior Summary
+##  Behavior Summary
 
 ### Healing Creatures
 - can attack normally
