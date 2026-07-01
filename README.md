@@ -1,288 +1,226 @@
 # DataDeck
-A strategic card game featuring collectible creatures and turn-based battles, designed with the Abstract Factory and Strategy design patterns to ensure flexibility and extensibility.
 
-# content 
- [EX0](#EX0)
- 
- [EX1](#EX1)
+A strategic card game featuring collectible creatures and turn-based battles, designed using **Abstract Factory**, **Capabilities**, and **Strategy design patterns**.  
+The goal is to build a flexible and extensible system where object creation, abilities, and battle logic are fully decoupled.
 
+---
 
+#  Contents
 
+- [EX0 — Creature Factory](#ex0--creature-factory)
+- [EX1 — Capabilities System](#ex1--capabilities-system)
+- [EX2 — Abstract Strategy Tournament](#ex2--abstract-strategy-tournament)
 
- # Ex0
-ex0 — Creature Factory
-Overview
+---
 
-This project implements the Abstract Factory design pattern to create and manage different families of creatures.
-Each factory is responsible for creating a base creature and its evolved form.
+#  EX0 — Creature Factory
 
-The goal is to separate object creation from object usage, ensuring that the client code does not depend on concrete classes.
- 
- Design Pattern
+Implements the **Abstract Factory Design Pattern** to create families of creatures.
 
-This project uses the Abstract Factory Pattern.
+Each factory is responsible for creating:
+- A base creature
+- An evolved creature
 
-- Factories are responsible for creating related objects.
+The goal is to separate object creation from usage.
 
-- Creatures are grouped into families.
+---
 
-- The client interacts only with factories.
+## Design Pattern
 
-Classes
+### Abstract Factory Pattern
+- Factories create related objects
+- Creatures are grouped into families
+- Client interacts only with factories
 
-Creature (Abstract Class)
+---
 
-Base class for all creatures.
+##  Creature Base Class
 
-Attributes:
-              
-                name: str
-                creature_type: str
-Methods:
-  
-              attack() -> str (abstract)
-              describe() -> str (concrete)
+### Creature (Abstract)
 
-Creatures
-* Fire Family
+**Attributes:**
+- name: str
+- creature_type: str
 
-- Flameling (base creature)
+**Methods:**
+- attack() → str (abstract)
+- describe() → str (concrete)
 
--Pyrodon (evolved creature)
-* Water Family
+---
 
-- Aquabub (base creature)
-- Torragon (evolved creature)
+## 🐉 Creature Families
 
-Each creature implements its own attack() method.
-
-* Factories
--CreatureFactory (Abstract) : Defines the interface for all factories.
-
-Methods:
- - create_base() -> Creature
- - create_evolved() -> Creature
-
-* FlameFactory
-
-Creates:
+###  Fire Family
 - Flameling (base)
 - Pyrodon (evolved)
 
-*AquaFactory
-
-Creates:
-
+###  Water Family
 - Aquabub (base)
 - Torragon (evolved)
-
-
-Restrictions
- - The package must NOT expose concrete creature classes.
- - Only factories must be accessible from outside the package.
-
-Usage
-
-The battle.py script is used to test the package.
-
-It:
-
-1) Creates factories
-2) Generates base and evolved creatures
-3) Calls describe() and attack()
-4) Simulates a battle between creatures
-
-*Example Output
-                         
-                      Testing factory
-                      Flameling is a Fire type Creature
-                      Flameling uses Ember!
-                      Pyrodon is a Fire/Flying type Creature
-                      Pyrodon uses Flamethrower!
-
-                     Testing factory
-                     Aquabub is a Water type Creature
-                     Aquabub uses Water Gun!
-                     Torragon is a Water type Creature
-                     Torragon uses Hydro Pump!
-
-                     Testing battle
-                     Flameling is a Fire type Creature
-                     vs.
-                     Aquabub is a Water type Creature
-                     fight!
-                     Flameling uses Ember!
-                     Aquabub uses Water Gun!
-
-                    
-                     
-Project Structure
-                        
-                        ex0/
-                           ├── __init__.py
-                           ├── creature.py
-                           ├── factory.py
-                           ├── flame_factory.py
-                           ├── aqua_factory.py
-
-                       battle.py              
-
-# EX1
-
-##  Overview
-
-This exercise extends the previous Creature system (ex0) by introducing **capabilities** using multiple inheritance.
-
-Instead of binding abilities directly to creatures, we separate behaviors into independent interfaces:
-
-- HealCapability
-- TransformCapability
-
-This makes the system more flexible, reusable, and extensible.
-
----
-
-##  Main Idea
-
-In ex0, creatures had fixed behaviors.
-
-In ex1, we apply:
-
-> "Composition through Capabilities instead of rigid inheritance"
-
-This means:
-- A creature can have healing ability OR transformation ability OR both
-- Abilities are not tied to a specific creature type
-
----
-
-##  Architecture
-
-### 1. Capabilities (Interfaces)
-
-#### HealCapability
-Defines healing behavior:
-
-- `heal(target=None) -> str`
-
-Used by creatures that can heal themselves or others.
-
----
-
-#### TransformCapability
-Defines transformation behavior:
-
-- `transform() -> str`
-- `revert() -> str`
-- Maintains internal state:
-  - `self.transformed: bool`
-
-This state affects the creature’s `attack()` behavior.
-
----
-
-##  Creature Families
-
-### Healing Family
-
-These creatures inherit:
-- Creature
-- HealCapability
-
-#### Sproutling
-- Base grass creature
-- Heals itself
-
-#### Bloomelle
-- Advanced grass/fairy creature
-- Stronger healing ability
-
----
-
-###  Transform Family
-
-These creatures inherit:
-- Creature
-- TransformCapability
-
-#### Shiftling
-- Normal type creature
-- Attack changes when transformed
-
-#### Morphagon
-- Normal/Dragon type creature
-- Stronger transformed attacks
 
 ---
 
 ##  Factories
 
-To enforce encapsulation, creatures are NOT created directly.
+### CreatureFactory (Abstract)
+- create_base()
+- create_evolved()
 
-Instead, we use factories:
+### FlameFactory
+- Flameling
+- Pyrodon
 
-### HealingCreatureFactory
-Creates:
-- `Sproutling` (base)
-- `Bloomelle` (evolved)
-
----
-
-### TransformCreatureFactory
-Creates:
-- `Shiftling` (base)
-- `Morphagon` (evolved)
+### AquaFactory
+- Aquabub
+- Torragon
 
 ---
 
-##  Design Restrictions
+##  Restrictions
 
-- Concrete creatures must NOT be imported outside the package
-- Only factories are exposed via `ex1/__init__.py`
-- This enforces abstraction and encapsulation
-
----
-
-##  Behavior Summary
-
-### Healing Creatures
-- can attack normally
-- can heal using `heal()`
-
-### Transform Creatures
-- can attack normally
-- can transform using `transform()`
-- attack behavior changes when transformed
-- can revert back using `revert()`
+- Concrete creatures must NOT be exposed outside the package
+- Only factories are accessible externally
 
 ---
 
-## State Logic
+##  Usage
 
-For Transform creatures:
-
-- Default state: `transformed = False`
-- After `transform()` → True
-- After `revert()` → False
-
-Attack behavior depends on this state.
+`battle.py`:
+1. Create factories
+2. Generate creatures
+3. Call describe() and attack()
+4. Simulate battle
 
 ---
 
-##  Learning Goals
+##  Structure
 
-This exercise teaches:
 
-- Multiple inheritance
-- Interface separation
-- State-based behavior design
-- Factory pattern extension
-- Encapsulation (hiding concrete classes)
+ex0/
+├── init.py
+├── creature.py
+├── factory.py
+├── flame_factory.py
+├── aqua_factory.py
+
+battle.py
+
 
 ---
 
-Instead of designing rigid creatures, we now design:
+# EX1 — Capabilities System
 
-> Flexible creatures built from independent capabilities.
+Extends EX0 by introducing **capabilities** using multiple inheritance.
 
-This makes the system scalable and easy to extend in future exercises.
+Abilities are separated from creatures to improve flexibility.
+
+---
+
+##  Main Idea
+
+> "Behavior is independent from the creature"
+
+---
+
+## Capabilities
+
+### HealCapability
+
+         heal(target=None) -> str
+
+TransformCapability
+        
+         transform() -> str
+         revert() -> str
+
+Includes state:
+
+        self.transformed: bool
+ 
+Healing Family
+- Sproutling
+- Bloomelle
+
+Capabilities:
+ - Heal
+ - Attack
+
+Transform Family
+- Shiftling
+- Morphagon
+
+Capabilities:
+ - Transform
+ - Attack (changes with state)
+- Revert
+
+Factories
+ - HealingCreatureFactory
+ - Sproutling
+ - Bloomelle
+
+TransformCreatureFactory
+ - Shiftling
+ - Morphagon
+Rules
+No direct access to concrete creatures
+Only factories are exposed
+*Learning Goals
+1) Multiple inheritance
+2) Interface separation
+3) State-based behavior
+4) Factory extension
+
+ 
+ 
+# EX2 — Abstract Strategy Tournament
+Implements the Strategy Pattern to manage battle behavior dynamically.
+
+Each creature is paired with a strategy.
+
+- Main Idea
+
+"The strategy defines how a creature fights"
+
+BattleStrategy Interface
+            
+            is_valid(creature) -> bool
+            act(creature) -> None
+Strategies :
+1) NormalStrategy
+ - attack only
+2) AggressiveStrategy
+ - transform → attack → revert
+3) DefensiveStrategy
+ - attack → heal
+
+
+Tournament Flow
+1) Create factories
+2) Assign strategies
+3) Generate creatures
+4) Run battles
+5) Delegate logic to strategies
+
+ 
+- Error Handling
+
+         If invalid pairing:
+
+         Battle error, aborting tournament: Invalid Creature 'X'
+
+ Structure
+          
+          ex2/
+          ├── battlestrategy.py
+          ├── concreteclasses.py
+          ├── __init__.py
+
+          tournament.py
+ 
+# Learning Goals
+ - Strategy pattern
+ - Runtime behavior selection
+ - Clean architecture
+ - Decoupled design
+
